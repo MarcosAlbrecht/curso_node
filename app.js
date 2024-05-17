@@ -6,8 +6,13 @@ app.get("/", function(req, res){
     res.send("Hellow world")
 });
 
-app.get("/user", function(req, res){
-    res.send({"nome":"marcos"})
+app.get("/user/:nome/sobrenome/:sobrenome", function(req, res){
+    res.send(
+        {   
+            "nome":req.params.nome,
+            "sobrenome":req.params.sobrenome
+        }
+    )
 });
 
 app.listen(8080, function() {
