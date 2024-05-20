@@ -1,11 +1,11 @@
 import express from 'express';
-import { productRouter } from './modules/products/product.controller.js';
-import { userRouter } from './modules/user/user.controller.js';
+import { routerLoader } from './routerLoader.js';
 
 const app = express();
 
-app.use(userRouter);
-app.use(productRouter);
+// app.use(userRouter);
+// app.use(productRouter);
+routerLoader(app);
 
 app.listen(8080, function () {
   console.log('Servidor rodando');
