@@ -1,4 +1,4 @@
-export interface UserModel {
+export interface UserInsertDTO {
   id: number;
   name: string;
   cpf: string;
@@ -6,6 +6,4 @@ export interface UserModel {
   password: string;
   typeUser: number;
   phone: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
