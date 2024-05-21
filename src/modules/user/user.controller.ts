@@ -1,4 +1,5 @@
 import { NotFoundException } from '@exceptions/not-found-exception';
+import { ReturnError } from '@exceptions/return-error.dto';
 import { Request, Response, Router } from 'express';
 import { UserInsertDTO } from './dtos/user-insert.dto';
 import { createUser, getUsers } from './user.service';
@@ -13,7 +14,7 @@ router.get('/', async (_, res: Response): Promise<void> => {
     if (error instanceof NotFoundException) {
       res.status(204);
     } else {
-      res.status(500).send(error.message);
+      new ReturnError(res, error);
     }
   });
 
