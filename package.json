@@ -4,7 +4,7 @@
   "description": "curso node",
   "main": "index.js",
   "scripts": {
-    "dev": "npx ts-node-dev --respawn --inspect --ignore-watch node_modules src/app.ts",
+    "dev": "npx ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/app.ts",
     "start": "node src/app.ts",
     "lint:fix": "npx eslint ./src --ext .ts --fix",
     "lint:format": "npx prettier --loglevel warn --write \"./src/**/*.{js,ts}\"",
@@ -29,6 +29,7 @@
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   },
   "pre-commit": "lint"
