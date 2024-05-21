@@ -3,6 +3,8 @@ import { routerLoader } from './routerLoader.js';
 
 const app = express();
 
+app.use(express.json());
+
 // app.use(userRouter);
 // app.use(productRouter);
 routerLoader(app);
