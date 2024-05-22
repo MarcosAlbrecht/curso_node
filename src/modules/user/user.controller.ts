@@ -1,4 +1,5 @@
 import { NotFoundException } from '@exceptions/not-found-exception';
+import { verifyToken } from '@utils/auth';
 import { Request, Response, Router } from 'express';
 import { ReturnError } from 'src/exceptions/return-error.dto';
 import { UserInsertDTO } from './dtos/user-insert.dto';
@@ -9,16 +10,27 @@ const router = Router();
 
 userRouter.use('/user', router);
 
-router.get('/', async (_, res: Response): Promise<void> => {
-  const users = await getUsers().catch((error) => {
+router.get('/', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const authorization = req.headers.authorization;
+
+    // Verify the token
+    await verifyToken(authorization);
+
+    // Fetch users
+    const users = await getUsers();
+
+    // Send the users as the response
+    res.send(users);
+  } catch (error) {
     if (error instanceof NotFoundException) {
-      res.status(204);
+      // No content to send back, 204 No Content
+      res.status(204).send();
     } else {
+      // Handle other errors
       new ReturnError(res, error);
     }
-  });
-
-  res.send(users);
+  }
 });
 
 router.post(
