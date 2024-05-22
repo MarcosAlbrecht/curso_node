@@ -1,7 +1,8 @@
+import { PrismaClient } from '@prisma/client';
+
 import { BadRequestException } from '@exceptions/bad-request-exception';
 import { NotFoundException } from '@exceptions/not-found-exception';
-import { PrismaClient } from '@prisma/client';
-import { CreatePasswordHashed } from 'src/utils/password';
+import { CreatePasswordHashed } from '@utils/password';
 import { UserInsertDTO } from './dtos/user-insert.dto';
 import { UserModel } from './user.model';
 

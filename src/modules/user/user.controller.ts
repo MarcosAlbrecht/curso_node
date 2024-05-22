@@ -1,6 +1,6 @@
 import { NotFoundException } from '@exceptions/not-found-exception';
-import { ReturnError } from '@exceptions/return-error.dto';
 import { Request, Response, Router } from 'express';
+import { ReturnError } from 'src/exceptions/return-error.dto';
 import { UserInsertDTO } from './dtos/user-insert.dto';
 import { createUser, getUsers } from './user.service';
 const userRouter = Router();
