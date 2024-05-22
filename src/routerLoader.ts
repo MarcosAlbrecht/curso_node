@@ -16,6 +16,7 @@ export const routerLoader = (app: Express): void => {
 
         if (controller.default && typeof controller.default === 'function') {
           app.use(controller.default);
+          //app.use(exceptionHandleMiddleware);
         }
       }
     }

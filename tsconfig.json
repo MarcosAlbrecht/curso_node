@@ -15,7 +15,8 @@
     "paths": {
       "@modules/*": ["./src/modules/*"],
       "@exceptions/*": ["./src/exceptions/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@middlewares/*": ["./src/middlewares/*"]
     }
   }
 }

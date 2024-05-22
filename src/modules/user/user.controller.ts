@@ -1,7 +1,7 @@
 import { NotFoundException } from '@exceptions/not-found-exception';
-import { verifyToken } from '@utils/auth';
+import { ReturnError } from '@exceptions/return-error.dto';
+import { authMiddleware } from '@middlewares/auth.middleware';
 import { Request, Response, Router } from 'express';
-import { ReturnError } from 'src/exceptions/return-error.dto';
 import { UserInsertDTO } from './dtos/user-insert.dto';
 import { createUser, getUsers } from './user.service';
 const userRouter = Router();
@@ -9,29 +9,6 @@ const userRouter = Router();
 const router = Router();
 
 userRouter.use('/user', router);
-
-router.get('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const authorization = req.headers.authorization;
-
-    // Verify the token
-    await verifyToken(authorization);
-
-    // Fetch users
-    const users = await getUsers();
-
-    // Send the users as the response
-    res.send(users);
-  } catch (error) {
-    if (error instanceof NotFoundException) {
-      // No content to send back, 204 No Content
-      res.status(204).send();
-    } else {
-      // Handle other errors
-      new ReturnError(res, error);
-    }
-  }
-});
 
 router.post(
   '/',
@@ -43,5 +20,25 @@ router.post(
     res.send(user);
   },
 );
+
+router.use(authMiddleware);
+
+router.get('/', async (req: Request, res: Response): Promise<void> => {
+  // const authorization = req.headers.authorization;
+
+  // verifyToken(authorization).catch((error) => {
+  //   new ReturnError(res, error);
+  // });
+
+  const users = await getUsers().catch((error) => {
+    if (error instanceof NotFoundException) {
+      res.status(204);
+    } else {
+      new ReturnError(res, error);
+    }
+  });
+
+  res.send(users);
+});
 
 export default userRouter;
