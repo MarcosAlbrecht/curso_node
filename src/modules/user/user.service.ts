@@ -1,6 +1,7 @@
 import { BadRequestException } from '@exceptions/bad-request-exception';
 import { NotFoundException } from '@exceptions/not-found-exception';
 import { PrismaClient } from '@prisma/client';
+import { CreatePasswordHashed } from 'src/utils/password';
 import { UserInsertDTO } from './dtos/user-insert.dto';
 import { UserModel } from './user.model';
 
@@ -27,7 +28,12 @@ export const createUser = async (body: UserInsertDTO): Promise<UserModel> => {
     throw new BadRequestException('CPF already exists');
   }
 
-  return prisma.user.create({ data: body });
+  const user: UserInsertDTO = {
+    ...body,
+    password: await CreatePasswordHashed(body.password),
+  };
+
+  return prisma.user.create({ data: user });
 };
 
 export const getUserByEmail = async (email: string): Promise<UserModel> => {
