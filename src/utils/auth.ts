@@ -25,8 +25,6 @@ export const verifyToken = async (authorization?: string): Promise<UserAuth> => 
   try {
     const decodedToken = <UserAuth>verify(token, PASSWORD_JWT);
 
-    console.log('decodedToken', decodedToken);
-
     return decodedToken;
   } catch (error) {
     throw new UnauthorizedException();

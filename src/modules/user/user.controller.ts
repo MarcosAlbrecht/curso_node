@@ -1,6 +1,6 @@
 import { NotFoundException } from '@exceptions/not-found-exception';
 import { ReturnError } from '@exceptions/return-error.dto';
-import { authMiddleware } from '@middlewares/auth.middleware';
+import { authAdminMiddleware } from '@middlewares/auth-admin.middleware';
 import { Request, Response, Router } from 'express';
 import { UserInsertDTO } from './dtos/user-insert.dto';
 import { createUser, getUsers } from './user.service';
@@ -34,7 +34,8 @@ const router = Router();
 userRouter.use('/user', router);
 
 router.post('/', createUserController);
-router.use(authMiddleware);
+//router.use(authMiddleware);
+router.use(authAdminMiddleware);
 router.get('/', getUsersController);
 
 export default userRouter;
