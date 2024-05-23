@@ -1,6 +1,7 @@
 import { NotFoundException } from '@exceptions/not-found-exception';
 import { ReturnError } from '@exceptions/return-error.dto';
 import { authAdminMiddleware } from '@middlewares/auth-admin.middleware';
+import { getUserByToken } from '@utils/auth';
 import { Request, Response, Router } from 'express';
 import { UserEditPasswordDTO } from './dtos/user-edit-password.dto';
 import { UserInsertDTO } from './dtos/user-insert.dto';
@@ -33,7 +34,8 @@ const editPasswordController = async (
   req: Request<undefined, undefined, UserEditPasswordDTO>,
   res: Response,
 ): Promise<void> => {
-  const user = await editPassword(7, req.body).catch((error) => {
+  const userAuth = await getUserByToken(req);
+  const user = await editPassword(userAuth.userId, req.body).catch((error) => {
     new ReturnError(res, error);
   });
 
